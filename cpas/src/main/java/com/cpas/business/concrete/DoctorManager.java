@@ -2,9 +2,11 @@ package com.cpas.business.concrete;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.cpas.adapter.abstracts.UserCheckService;
 import com.cpas.business.abstracts.DoctorService;
 import com.cpas.core.ExceptionHandler.UserNotFoundException;
 import com.cpas.core.utilities.results.DataResult;
@@ -19,15 +21,18 @@ import com.cpas.repository.DoctorRepository;
 public class DoctorManager implements DoctorService{
 
 	private final DoctorRepository doctorRepository;
+	private final UserCheckService checkService;
 	
-	public DoctorManager(DoctorRepository doctorRepository) {
+	public DoctorManager(DoctorRepository doctorRepository, @Qualifier("mernis") UserCheckService checkService) {
 		super();
 		this.doctorRepository = doctorRepository;
+		this.checkService = checkService;
 	}
 
 	@Override
 	public Result add(Doctor doctor) {
 		if(this.doctorRepository.existsByNationalId(doctor.getNationalId())) {return new ErrorResult("User already exists");}
+		if(!checkService.checkIfRealPerson(doctor)) {return new ErrorResult("Not a valid person");}
 		this.doctorRepository.save(doctor);
 		return new SuccessResult("User added");
 	}
