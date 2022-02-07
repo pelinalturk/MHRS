@@ -7,5 +7,6 @@ import com.cpas.domain.Doctor;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
-
+	boolean existsById(int id);
+	boolean existsByNationalId(String nationalId);
 }
