@@ -7,5 +7,5 @@ import com.cpas.domain.Clinic;
 
 @Repository
 public interface ClinicRepository extends JpaRepository<Clinic, Integer>{
-
+	boolean existsByClinicName(String clinicName);
 }

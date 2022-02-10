@@ -1,5 +1,9 @@
 package com.cpas.business.abstracts;
 
-public interface CityService {
+import java.util.List;
 
+import com.cpas.domain.City;
+
+public interface CityService {
+	List<City>getAll();
 }

@@ -1,5 +1,9 @@
 package com.cpas.business.abstracts;
 
-public interface GenderService {
+import java.util.List;
 
+import com.cpas.domain.Gender;
+
+public interface GenderService {
+	List<Gender>getAll();
 }
